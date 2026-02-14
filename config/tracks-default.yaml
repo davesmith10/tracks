@@ -1,0 +1,14 @@
+network:
+  multicast_group: "239.255.0.1"
+  port: 5000
+  ttl: 1
+  loopback: true
+  interface: "0.0.0.0"
+
+analysis:
+  sample_rate: 44100
+  frame_size: 2048
+  hop_size: 1024
+
+transport:
+  position_interval: 1.0   # seconds between track.position heartbeats
