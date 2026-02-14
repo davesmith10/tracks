@@ -91,6 +91,48 @@ sock.on("message", (buf) => {
 });
 ```
 
+## Example: Go
+
+A complete Go receiver is included at `client/golang/`. Build and run:
+
+```bash
+cd client/golang
+go build -o tracks-recv-go .
+./tracks-recv-go --multicast-group 239.255.0.1 --port 5000
+```
+
+The core loop:
+
+```go
+import (
+    "net"
+    "github.com/davesmith10/tracks/client/golang/trackspb"
+    "google.golang.org/protobuf/proto"
+)
+
+conn, _ := net.ListenMulticastUDP("udp4", nil, &net.UDPAddr{
+    IP:   net.ParseIP("239.255.0.1"),
+    Port: 5000,
+})
+
+buf := make([]byte, 65536)
+for {
+    n, _, _ := conn.ReadFromUDP(buf)
+
+    env := &trackspb.Envelope{}
+    proto.Unmarshal(buf[:n], env)
+
+    switch e := env.Event.(type) {
+    case *trackspb.Envelope_Beat:
+        // handle beat at env.GetTimestamp()
+    case *trackspb.Envelope_ChordChange:
+        // e.ChordChange.GetChord() => "Am", "G", etc.
+    case *trackspb.Envelope_TrackEnd:
+        return
+    }
+}
+```
+
 ## Example: C++ (Boost.Asio)
 
 The included `tracks-recv` binary is a complete reference. The core loop:

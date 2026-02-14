@@ -26,6 +26,10 @@ struct Config {
     EventFilter enabled_events;         // which non-transport events to analyze/emit
     double      continuous_interval = 0.1; // seconds between continuous event emissions
 
+    // unicast relay (WSL2 workaround)
+    bool        enable_unicast = false;
+    std::string unicast_target;  // empty = auto-detect WSL2 host IP
+
     // input
     std::string input_file;
 };

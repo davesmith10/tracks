@@ -21,6 +21,8 @@ static void load_yaml(Config& cfg, const std::string& path) {
         if (net["ttl"])             cfg.ttl  = net["ttl"].as<int>();
         if (net["loopback"])        cfg.loopback  = net["loopback"].as<bool>();
         if (net["interface"])       cfg.interface = net["interface"].as<std::string>();
+        if (net["enable_unicast"])  cfg.enable_unicast = net["enable_unicast"].as<bool>();
+        if (net["unicast_target"])  cfg.unicast_target = net["unicast_target"].as<std::string>();
     }
     if (auto an = root["analysis"]) {
         if (an["sample_rate"]) cfg.sample_rate = an["sample_rate"].as<int>();
@@ -72,6 +74,8 @@ bool load_config(Config& cfg, int argc, char* argv[]) {
         ("primary",   "Enable tier 1 events (beat, onset, silence, loudness, energy)")
         ("continuous-interval", po::value<double>(), "Seconds between continuous event emissions (default 0.1)")
         ("list-events", "List all available event types and exit")
+        ("enable-unicast", po::bool_switch(), "Also send packets via unicast (WSL2 workaround)")
+        ("unicast-target", po::value<std::string>(), "Unicast target IP (default: auto-detect WSL2 host)")
     ;
 
     po::positional_options_description pos;
@@ -118,6 +122,8 @@ bool load_config(Config& cfg, int argc, char* argv[]) {
     if (vm.count("hop-size"))          cfg.hop_size         = vm["hop-size"].as<int>();
     if (vm.count("position-interval")) cfg.position_interval= vm["position-interval"].as<double>();
     if (vm.count("continuous-interval")) cfg.continuous_interval = vm["continuous-interval"].as<double>();
+    if (vm["enable-unicast"].as<bool>())  cfg.enable_unicast = true;
+    if (vm.count("unicast-target"))       cfg.unicast_target = vm["unicast-target"].as<std::string>();
 
     // Event filter: --all > --primary > --events > default
     if (vm.count("all")) {

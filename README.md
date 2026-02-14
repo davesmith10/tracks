@@ -70,6 +70,8 @@ tracks [options] <input-file>
 | `--hop-size N` | Analysis hop size (default: `1024`) |
 | `--position-interval SEC` | Seconds between `track.position` heartbeats (default: `1.0`) |
 | `--continuous-interval SEC` | Minimum interval between continuous events (default: `0.1`) |
+| `--enable-unicast` | Also send packets via unicast (WSL2 workaround) |
+| `--unicast-target IP` | Unicast target IP (default: auto-detect WSL2 host) |
 
 ### Examples
 
@@ -105,7 +107,7 @@ TRACKS detects 44 event types across 12 categories. Transport events (`track.sta
 
 Events are classified as either **discrete** (emitted at specific moments, e.g. `beat`, `chord.change`, `segment.boundary`) or **continuous** (emitted per analysis frame, e.g. `loudness`, `mfcc`, `spectral.centroid`). Continuous events are throttled to the `--continuous-interval` rate to avoid flooding the network.
 
-See [PROTOBUF.md](PROTOBUF.md) for the wire format and full message schemas. See [CLIENT.md](CLIENT.md) for guidance on writing receivers.
+See [PROTOBUF.md](PROTOBUF.md) for the wire format and full message schemas. See [CLIENT.md](CLIENT.md) for guidance on writing receivers. If you are running TRACKS inside WSL2 and need events to reach the Windows host, see [UNICAST.md](UNICAST.md).
 
 ## Configuration
 

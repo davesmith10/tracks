@@ -4,6 +4,8 @@ network:
   ttl: 1
   loopback: true
   interface: "0.0.0.0"
+  # enable_unicast: false
+  # unicast_target: ""   # auto-detect WSL2 host IP if empty
 
 analysis:
   sample_rate: 44100

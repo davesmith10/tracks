@@ -12,9 +12,13 @@ public:
     void send(const std::string& serialized_envelope);
 
 private:
+    static std::string detect_wsl2_host();
+
     boost::asio::io_context        io_;
     boost::asio::ip::udp::endpoint endpoint_;
     boost::asio::ip::udp::socket   socket_;
+    bool                           unicast_enabled_ = false;
+    boost::asio::ip::udp::endpoint unicast_endpoint_;
 };
 
 } // namespace tracks
