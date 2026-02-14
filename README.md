@@ -1,8 +1,9 @@
 # TRACKS
 
-A C++ command-line tool that analyzes audio files and emits structured music events via UDP multicast in real time. Built on [Essentia](https://essentia.upf.edu/) for audio analysis and [Protocol Buffers](https://protobuf.dev/) for wire format.
+A C++ command-line tool that analyzes audio files and emits structured music events via UDP multicast in real time. 
+Built on [Essentia](https://essentia.upf.edu/) for audio analysis and [Protocol Buffers](https://protobuf.dev/) for wire format.
 
-TRACKS processes a WAV or MP3 file in two phases:
+TRACKS processes a music file in two phases:
 
 1. **Analysis** — Runs Essentia's streaming algorithms to completion (faster than real time), collecting all detected events into a sorted timeline.
 2. **Emission** — Walks the timeline at playback speed, sending each event as a serialized protobuf message over UDP multicast.
@@ -202,4 +203,4 @@ config/
 
 ## License
 
-TBD
+GPL 3.0 https://github.com/davesmith10/tracks?tab=GPL-3.0-1-ov-file
