@@ -12,7 +12,7 @@ Any number of receivers on the local network can join the multicast group to con
 
 ## Installation (Binary)
 
-Pre-built Linux x86_64 tarballs are available from [GitHub Releases](https://github.com/YOUR_USER/tracks/releases). Each tarball is self-contained with all dependencies bundled:
+Pre-built Linux x86_64 tarballs are available from [releases](https://github.com/davesmith10/tracks/tree/main/releases). Each tarball is self-contained with all dependencies bundled:
 
 ```bash
 # Download and extract
