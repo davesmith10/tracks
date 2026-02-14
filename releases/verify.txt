@@ -1,0 +1,6 @@
+To verify:
+  tar xzf /mnt/c/Users/daves/OneDrive/Desktop/TRACKS/build/tracks-0.1.0-linux-x86_64.tar.gz
+  cd tracks-0.1.0-linux-x86_64
+  ldd ./tracks  # all libs should resolve from ./lib/
+  ./tracks --help
+
