@@ -21,6 +21,7 @@ struct Config {
 
     // transport
     double position_interval = 1.0;
+    double prepare_time      = 5.0;  // seconds before track.start to send track.prepare
 
     // event filtering
     EventFilter enabled_events;         // which non-transport events to analyze/emit

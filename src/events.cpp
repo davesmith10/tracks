@@ -16,6 +16,7 @@ static const std::vector<EventNameEntry>& all_entries() {
         {EventType::TRACK_END,      "track.end"},
         {EventType::TRACK_POSITION, "track.position"},
         {EventType::TRACK_ABORT,    "track.abort"},
+        {EventType::TRACK_PREPARE,  "track.prepare"},
         // Beat/Rhythm
         {EventType::BEAT,           "beat"},
         {EventType::TEMPO_CHANGE,   "tempo.change"},
@@ -101,7 +102,8 @@ bool is_transport_event(EventType et) {
     return et == EventType::TRACK_START ||
            et == EventType::TRACK_END   ||
            et == EventType::TRACK_POSITION ||
-           et == EventType::TRACK_ABORT;
+           et == EventType::TRACK_ABORT ||
+           et == EventType::TRACK_PREPARE;
 }
 
 EventFilter default_events() {

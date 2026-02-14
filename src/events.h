@@ -14,6 +14,7 @@ enum class EventType {
     TRACK_END,
     TRACK_POSITION,
     TRACK_ABORT,
+    TRACK_PREPARE,
 
     // Beat/Rhythm
     BEAT,

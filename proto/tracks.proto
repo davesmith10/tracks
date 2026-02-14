@@ -9,6 +9,7 @@ message Envelope {
     TrackEnd      track_end      = 11;
     TrackPosition track_position = 12;
     TrackAbort    track_abort    = 13;
+    TrackPrepare  track_prepare  = 14;
 
     // Beat/Rhythm 20-29
     Beat          beat           = 20;
@@ -95,6 +96,11 @@ message TrackPosition {
 
 message TrackAbort {
   string reason = 1;    // e.g. "user_interrupt"
+}
+
+message TrackPrepare {
+  double countdown = 1;  // seconds until track.start
+  string filename  = 2;  // canonical (absolute) file path
 }
 
 // --- Beat/Rhythm ---

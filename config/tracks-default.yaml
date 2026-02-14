@@ -14,3 +14,4 @@ analysis:
 
 transport:
   position_interval: 1.0   # seconds between track.position heartbeats
+  prepare_time: 5.0        # seconds before track.start to send track.prepare

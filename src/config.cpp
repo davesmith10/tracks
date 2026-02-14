@@ -31,6 +31,7 @@ static void load_yaml(Config& cfg, const std::string& path) {
     }
     if (auto tr = root["transport"]) {
         if (tr["position_interval"]) cfg.position_interval = tr["position_interval"].as<double>();
+        if (tr["prepare_time"])      cfg.prepare_time      = tr["prepare_time"].as<double>();
     }
     if (auto ev = root["events"]) {
         if (ev["continuous_interval"]) cfg.continuous_interval = ev["continuous_interval"].as<double>();
@@ -69,6 +70,7 @@ bool load_config(Config& cfg, int argc, char* argv[]) {
         ("frame-size",         po::value<int>(),    "Analysis frame size")
         ("hop-size",           po::value<int>(),    "Analysis hop size")
         ("position-interval",  po::value<double>(), "Seconds between position heartbeats")
+        ("prepare-time",       po::value<double>(), "Seconds before track.start to send track.prepare (default 5.0)")
         ("events,e",  po::value<std::string>(), "Comma-separated event types (e.g. beat,onset,pitch)")
         ("all",       "Enable all event types")
         ("primary",   "Enable tier 1 events (beat, onset, silence, loudness, energy)")
@@ -121,6 +123,7 @@ bool load_config(Config& cfg, int argc, char* argv[]) {
     if (vm.count("frame-size"))        cfg.frame_size       = vm["frame-size"].as<int>();
     if (vm.count("hop-size"))          cfg.hop_size         = vm["hop-size"].as<int>();
     if (vm.count("position-interval")) cfg.position_interval= vm["position-interval"].as<double>();
+    if (vm.count("prepare-time"))    cfg.prepare_time     = vm["prepare-time"].as<double>();
     if (vm.count("continuous-interval")) cfg.continuous_interval = vm["continuous-interval"].as<double>();
     if (vm["enable-unicast"].as<bool>())  cfg.enable_unicast = true;
     if (vm.count("unicast-target"))       cfg.unicast_target = vm["unicast-target"].as<std::string>();

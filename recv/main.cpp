@@ -56,6 +56,13 @@ static std::string format_event(const tracks::Envelope& env) {
             result += buf;
             break;
         }
+        case tracks::Envelope::kTrackPrepare: {
+            const auto& e = env.track_prepare();
+            snprintf(buf, sizeof(buf), "track.prepare     countdown=%.1fs file=%s",
+                     e.countdown(), e.filename().c_str());
+            result += buf;
+            break;
+        }
 
         // Beat/Rhythm
         case tracks::Envelope::kBeat: {

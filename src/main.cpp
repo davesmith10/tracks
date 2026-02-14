@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     std::cout << "\n--- Emission Phase ---" << std::endl;
     tracks::Transport transport(cfg);
     tracks::Emitter emitter;
-    emitter.run(timeline, transport);
+    emitter.run(timeline, transport, cfg);
 
     if (tracks::g_interrupted.load()) {
         std::cout << "Aborted." << std::endl;
