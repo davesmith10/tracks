@@ -1,0 +1,295 @@
+syntax = "proto3";
+package tracks;
+
+message Envelope {
+  double timestamp = 1;       // seconds from start of file
+  oneof event {
+    // Transport 10-19
+    TrackStart    track_start    = 10;
+    TrackEnd      track_end      = 11;
+    TrackPosition track_position = 12;
+    TrackAbort    track_abort    = 13;
+    TrackPrepare  track_prepare  = 14;
+
+    // Beat/Rhythm 20-29
+    Beat          beat           = 20;
+    TempoChange   tempo_change   = 21;
+    Downbeat      downbeat       = 22;
+
+    // Onset 30-39
+    Onset         onset          = 30;
+    OnsetRate     onset_rate     = 31;
+    Novelty       novelty        = 32;
+
+    // Tonal 40-49
+    KeyChange     key_change     = 40;
+    ChordChange   chord_change   = 41;
+    Chroma        chroma         = 42;
+    Tuning        tuning         = 43;
+    Dissonance    dissonance     = 44;
+    Inharmonicity inharmonicity  = 45;
+
+    // Pitch/Melody 50-59
+    Pitch         pitch          = 50;
+    PitchChange   pitch_change   = 51;
+    Melody        melody         = 52;
+
+    // Loudness/Energy 60-69
+    Loudness      loudness       = 60;
+    LoudnessPeak  loudness_peak  = 61;
+    Energy        energy         = 62;
+    DynamicChange dynamic_change = 63;
+
+    // Silence/Gap 70-79
+    SilenceStart  silence_start  = 70;
+    SilenceEnd    silence_end    = 71;
+    Gap           gap            = 72;
+
+    // Spectral 80-89
+    SpectralCentroid    spectral_centroid    = 80;
+    SpectralFlux        spectral_flux        = 81;
+    SpectralComplexity  spectral_complexity  = 82;
+    SpectralContrast    spectral_contrast    = 83;
+    SpectralRolloff     spectral_rolloff     = 84;
+    Mfcc                mfcc                 = 85;
+    TimbreChange        timbre_change        = 86;
+
+    // Bands 90-99
+    BandsMel      bands_mel      = 90;
+    BandsBark     bands_bark     = 91;
+    BandsErb      bands_erb      = 92;
+    Hfc           hfc            = 93;
+
+    // Structure 100-109
+    SegmentBoundary segment_boundary = 100;
+    FadeIn          fade_in          = 101;
+    FadeOut         fade_out         = 102;
+
+    // Quality 110-119
+    Click         click          = 110;
+    Discontinuity discontinuity  = 111;
+    NoiseBurst    noise_burst    = 112;
+    Saturation    saturation     = 113;
+    Hum           hum            = 114;
+
+    // Envelope/Transient 120-129
+    EnvelopeEvent envelope_event = 120;
+    Attack        attack         = 121;
+    Decay         decay          = 122;
+  }
+}
+
+// --- Transport ---
+
+message TrackStart {
+  string filename    = 1;
+  double duration    = 2;
+  int32  sample_rate = 3;
+  int32  channels    = 4;
+}
+
+message TrackEnd {}
+
+message TrackPosition {
+  double position = 1;  // current time in seconds
+}
+
+message TrackAbort {
+  string reason = 1;    // e.g. "user_interrupt"
+}
+
+message TrackPrepare {
+  double countdown = 1;  // seconds until track.start
+  string filename  = 2;  // canonical (absolute) file path
+}
+
+// --- Beat/Rhythm ---
+
+message Beat {
+  double confidence = 1;
+}
+
+message TempoChange {
+  double bpm = 1;
+}
+
+message Downbeat {
+  double confidence = 1;
+}
+
+// --- Onset ---
+
+message Onset {
+  double strength = 1;
+}
+
+message OnsetRate {
+  double rate = 1;      // onsets per second
+}
+
+message Novelty {
+  double value = 1;
+}
+
+// --- Tonal ---
+
+message KeyChange {
+  string key   = 1;     // e.g. "C"
+  string scale = 2;     // e.g. "major", "minor"
+  double strength = 3;
+}
+
+message ChordChange {
+  string chord    = 1;  // e.g. "Am", "G"
+  double strength = 2;
+}
+
+message Chroma {
+  repeated float values = 1;  // 12-dim HPCP
+}
+
+message Tuning {
+  double frequency = 1; // Hz, deviation from A440
+}
+
+message Dissonance {
+  double value = 1;
+}
+
+message Inharmonicity {
+  double value = 1;
+}
+
+// --- Pitch/Melody ---
+
+message Pitch {
+  double frequency  = 1;  // Hz
+  double confidence = 2;
+}
+
+message PitchChange {
+  double from_hz = 1;
+  double to_hz   = 2;
+}
+
+message Melody {
+  double frequency = 1;   // Hz, predominant pitch
+}
+
+// --- Loudness/Energy ---
+
+message Loudness {
+  double value = 1;  // dB or LUFS
+}
+
+message LoudnessPeak {
+  double value = 1;
+}
+
+message Energy {
+  double value = 1;
+}
+
+message DynamicChange {
+  double magnitude = 1;  // size of the dynamic shift
+}
+
+// --- Silence/Gap ---
+
+message SilenceStart {}
+
+message SilenceEnd {}
+
+message Gap {
+  double duration = 1;   // gap duration in seconds
+}
+
+// --- Spectral ---
+
+message SpectralCentroid {
+  double value = 1;
+}
+
+message SpectralFlux {
+  double value = 1;
+}
+
+message SpectralComplexity {
+  double value = 1;
+}
+
+message SpectralContrast {
+  repeated float values = 1;  // multi-band contrast
+}
+
+message SpectralRolloff {
+  double value = 1;      // Hz
+}
+
+message Mfcc {
+  repeated float values = 1;  // 13-dim
+}
+
+message TimbreChange {
+  double distance = 1;   // MFCC distance from previous frame
+}
+
+// --- Bands ---
+
+message BandsMel {
+  repeated float values = 1;
+}
+
+message BandsBark {
+  repeated float values = 1;
+}
+
+message BandsErb {
+  repeated float values = 1;
+}
+
+message Hfc {
+  double value = 1;
+}
+
+// --- Structure ---
+
+message SegmentBoundary {}
+
+message FadeIn {
+  double end_time = 1;  // when the fade-in ends
+}
+
+message FadeOut {
+  double start_time = 1;  // when the fade-out starts
+}
+
+// --- Quality ---
+
+message Click {}
+
+message Discontinuity {}
+
+message NoiseBurst {}
+
+message Saturation {
+  double duration = 1;  // duration of saturation region
+}
+
+message Hum {
+  double frequency = 1; // Hz of the hum
+}
+
+// --- Envelope/Transient ---
+
+message EnvelopeEvent {
+  double value = 1;
+}
+
+message Attack {
+  double log_attack_time = 1;
+}
+
+message Decay {
+  double value = 1;
+}
